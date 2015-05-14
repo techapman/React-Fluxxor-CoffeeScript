@@ -1,0 +1,16 @@
+{
+  "name": "FluxxorTodoExample",
+  "version": "1.0.0",
+  "description": "'awesome todo app with fluxxor+react+coffeescript'",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fluxxor": "^1.5.3",
+    "react": "^0.13.3",
+    "uuid": "^2.0.1"
+  }
+}
