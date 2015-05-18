@@ -132,10 +132,16 @@
       return this.getFlux().actions.toggleComplete(this.props.todo);
     },
     render: function() {
-      var span;
+      var span, spanStyle;
       span = React.DOM.span;
+      spanStyle = this.props.todo.complete ? {
+        color: "red"
+      } : {
+        color: "green"
+      };
       return span({
-        onClick: this.handleClick
+        onClick: this.handleClick,
+        style: spanStyle
       }, this.props.todo.text);
     }
   });

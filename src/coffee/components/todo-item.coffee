@@ -15,7 +15,8 @@ module.exports = React.createClass
 
   render: ->
     { span } = React.DOM
-
+    spanStyle = if @props.todo.complete then {color: "red"} else {color: "green"}
     (span {
-      onClick: @handleClick
+      onClick: @handleClick,
+      style: spanStyle
     }, @props.todo.text)
