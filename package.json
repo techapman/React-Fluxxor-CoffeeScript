@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "fluxxor": "^1.5.3",
-    "react": "^0.13.3",
+    "react": "^0.13.2",
     "uuid": "^2.0.1"
   },
   "devDependencies": {
@@ -32,6 +32,6 @@
       "coffee.md",
       "js"
     ],
-    "unmockedModulePathPatterns": ["./node_modules/react/addons"]
+    "unmockedModulePathPatterns": ["react", "uuid", "lodash-node"]
   }
 }

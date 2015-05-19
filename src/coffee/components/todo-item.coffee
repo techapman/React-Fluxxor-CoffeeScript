@@ -1,6 +1,6 @@
 
 Fluxxor = require 'fluxxor'
-React = require 'react'
+React = require 'react/addons'
 FluxMixin = Fluxxor.FluxMixin(React)
 
 module.exports = React.createClass
@@ -15,7 +15,10 @@ module.exports = React.createClass
 
   render: ->
     { span } = React.DOM
-    spanStyle = if @props.todo.complete then {color: "red"} else {color: "green"}
+    spanStyle =
+      if @props.todo.complete
+      then {color: "green"}
+      else {color: "red"}
     (span {
       onClick: @handleClick,
       style: spanStyle

@@ -2,7 +2,7 @@
 (function() {
   var AppComponent, AppFluxInstance, React;
 
-  React = require('react');
+  React = require('react/addons');
 
   AppFluxInstance = require('./fluxxors/todo-fluxxor');
 

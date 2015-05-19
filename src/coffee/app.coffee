@@ -1,5 +1,5 @@
 
-React = require 'react'
+React = require 'react/addons'
 AppFluxInstance = require './fluxxors/todo-fluxxor'
 AppComponent = require './components/cool-app'
 

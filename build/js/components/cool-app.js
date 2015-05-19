@@ -4,7 +4,7 @@
 
   Fluxxor = require('fluxxor');
 
-  React = require('react');
+  React = require('react/addons');
 
   FluxMixin = Fluxxor.FluxMixin(React);
 
@@ -44,7 +44,9 @@
     render: function() {
       var button, div, form, input, li, ref, ul;
       ref = React.DOM, div = ref.div, ul = ref.ul, li = ref.li, form = ref.form, input = ref.input, button = ref.button;
-      return div({}, [
+      return div({
+        id: 'TODOAPPDIV'
+      }, [
         ul({
           key: 'allTodosList'
         }, this.state.todos.map(function(currentTodo, i) {

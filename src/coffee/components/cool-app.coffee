@@ -1,13 +1,13 @@
 
 Fluxxor = require 'fluxxor'
-React = require 'react'
+React = require 'react/addons'
 FluxMixin = Fluxxor.FluxMixin(React)
 StoreWatchMixin = Fluxxor.StoreWatchMixin
 
 #child react components
 TodoItem = require './todo-item'
 
-Application = React.createClass 
+Application = React.createClass
   mixins: [FluxMixin, StoreWatchMixin('TodoStore')]
 
   getInitialState: ->
@@ -19,7 +19,7 @@ Application = React.createClass
 
   handleTodoTextChange: (e)->
     @setState({newTodoText: e.target.value})
-  
+
   onSubmitForm: (e)->
     e.preventDefault()
     if @state.newTodoText.trim()
@@ -35,7 +35,7 @@ Application = React.createClass
     #React.DOM element functions called like this:
     #      element({prop1: val, prop2: val2}, childrenElements...)
     #children elements above can either be React components or text strings
-    (div {}, [
+    (div {id:'TODOAPPDIV'}, [
 
       ul {key: 'allTodosList'}, @state.todos.map (currentTodo, i)->
         #console.log 'CURRENT TODO', currentTodo, i

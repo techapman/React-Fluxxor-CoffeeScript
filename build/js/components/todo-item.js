@@ -4,7 +4,7 @@
 
   Fluxxor = require('fluxxor');
 
-  React = require('react');
+  React = require('react/addons');
 
   FluxMixin = Fluxxor.FluxMixin(React);
 
@@ -20,9 +20,9 @@
       var span, spanStyle;
       span = React.DOM.span;
       spanStyle = this.props.todo.complete ? {
-        color: "red"
-      } : {
         color: "green"
+      } : {
+        color: "red"
       };
       return span({
         onClick: this.handleClick,
