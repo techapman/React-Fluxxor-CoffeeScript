@@ -5,8 +5,9 @@ describe 'TodoStore', ->
   TodoStore = null
   constants = null
   store = null
-
+  flux = null
   beforeEach ->
+    #setup the store
     TodoStore = require '../todo-store'
     constants = require '../../constants/todo-constants'
     store = new TodoStore()
@@ -16,7 +17,11 @@ describe 'TodoStore', ->
       .mockReturnValueOnce("abc") #first return val is abc
       .mockReturnValueOnce("abcd") #2nd return val is abcd
       .mockReturnValueOnce("abcde") #3rd return val is abcde
-
+    #setup the dispatcher
+    stores = {"TodoStore": store}
+    actions = require '../../actions/todo-actions'
+    Fluxxor = require 'fluxxor'
+    flux = new Fluxxor.Flux(stores, actions)
   afterEach ->
     TodoStore = null
     store = null
@@ -24,7 +29,7 @@ describe 'TodoStore', ->
 
   it 'handles addTodo actions in onAddTodo callback', ->
     #todos should start as an empty object
-    expect(store.todos).toEqual({})
+    expect(flux.store("TodoStore").todos).toEqual({})
 
     #setup some action objects the dispatcher would call __handleAction__ with
     addTodoAction1 = {
@@ -42,9 +47,9 @@ describe 'TodoStore', ->
 
     #dispatcher would normally dispatch the appropriate callback
     #via __handleAction__, but this method isnt public. Hack around that...
-    store.__handleAction__(addTodoAction1)
+    flux.dispatcher.dispatch(addTodoAction1)
 
-    expect(store.todos).toEqual({
+    expect(flux.store("TodoStore").todos).toEqual({
       "abc": {
         id: "abc"
         text: "go to the store"
@@ -53,9 +58,9 @@ describe 'TodoStore', ->
     })
 
     #should be able to add multiple todos
-    store.__handleAction__(addTodoAction2)
+    flux.dispatcher.dispatch(addTodoAction2)
 
-    expect(store.todos).toEqual({
+    expect(flux.store("TodoStore").todos).toEqual({
       "abc": {
         id: "abc"
         text: "go to the store"
@@ -77,9 +82,9 @@ describe 'TodoStore', ->
         text: 'go to the store'
       }
     }
-    store.__handleAction__(addTodoAction1)
+    flux.dispatcher.dispatch(addTodoAction1)
     #sanity check--was the new todo actually added to the store?
-    expect(store.todos).toEqual({
+    expect(flux.store("TodoStore").todos).toEqual({
       "abc": {
         id: "abc"
         text: "go to the store"
@@ -89,12 +94,12 @@ describe 'TodoStore', ->
     #setup action object using a reference to the todo object
     toggleCompleteAction1 = {
       type: constants.TOGGLE_TODO
-      payload: {todo: store.todos["abc"]} #must be a reference to the object
+      payload: {todo: flux.store("TodoStore").todos["abc"]} #must be a reference to the object
     }
     #toggle complete where function arg contains a reference to the todo item
-    store.__handleAction__(toggleCompleteAction1)
+    flux.dispatcher.dispatch(toggleCompleteAction1)
 
-    expect(store.todos).toEqual({
+    expect(flux.store("TodoStore").todos).toEqual({
       "abc": {
         id: "abc"
         text: "go to the store"
@@ -105,7 +110,7 @@ describe 'TodoStore', ->
 
   it 'removes completed todos in onClearTodos callback', ->
     #put mock todo items in the store with some complete and some incomplete
-    store.todos = {
+    flux.store("TodoStore").todos = {
       "abc": {
         id: "abc"
         text: "go to the store"
@@ -124,8 +129,8 @@ describe 'TodoStore', ->
     }
     #call clearTodos action--no payload needed
     clearTodosAction = {type: constants.CLEAR_TODOS, payload: undefined}
-    store.__handleAction__(clearTodosAction)
-    expect(store.todos).toEqual({
+    flux.dispatcher.dispatch(clearTodosAction)
+    expect(flux.store("TodoStore").todos).toEqual({
       "abcd": {
         id: "abcd"
         text: "do homework"
@@ -135,7 +140,7 @@ describe 'TodoStore', ->
 
 
   it 'emits a CHANGE event in all its callbacks', ->
-    store.emit = jest.genMockFunction()
+    flux.store("TodoStore").emit = jest.genMockFunction()
     #setup some mock actions
     addTodoAction1 = {
       type: constants.ADD_TODO
@@ -149,20 +154,20 @@ describe 'TodoStore', ->
         text: 'get money get paid'
       }
     }
-    store.__handleAction__(addTodoAction1) #should call emit (1)
-    store.__handleAction__(addTodoAction2) #should call emit (2)
+    flux.dispatcher.dispatch(addTodoAction1) #should call emit (1)
+    flux.dispatcher.dispatch(addTodoAction2) #should call emit (2)
 
     toggleCompleteAction1 = {
       type: constants.TOGGLE_TODO
-      payload: {todo: store.todos["abc"]} #must be a reference to the object
+      payload: {todo: flux.store("TodoStore").todos["abc"]} #must be a reference
     }
-    store.__handleAction__(toggleCompleteAction1) #should call emit (3)
+    flux.dispatcher.dispatch(toggleCompleteAction1) #should call emit (3)
 
     clearTodosAction = {type: constants.CLEAR_TODOS, payload: undefined}
-    store.__handleAction__(clearTodosAction) #should call emit (4)
+    flux.dispatcher.dispatch(clearTodosAction) #should call emit (4)
 
-    expect(store.emit.mock.calls.length).toBe(4) #should have been called 4x
+    expect(flux.store("TodoStore").emit.mock.calls.length).toBe(4) #should have been called 4x
     #check whether each call to store.emit contained the argument 'change'
-    for emitCall in store.emit.mock.calls
+    for emitCall in flux.store("TodoStore").emit.mock.calls
       firstArgInCall = emitCall[0]
       expect(firstArgInCall).toBe('change')
