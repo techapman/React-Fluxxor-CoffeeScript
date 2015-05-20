@@ -32,7 +32,6 @@ describe 'TodoStore', ->
     #todos should start as an empty object
     expect(flux.store("TodoStore").todos).toEqual({})
 
-    #setup some action objects the dispatcher would call __handleAction__ with
     addTodoAction1 = {
       type: constants.ADD_TODO
       payload: {
@@ -46,8 +45,6 @@ describe 'TodoStore', ->
       }
     }
 
-    #dispatcher would normally dispatch the appropriate callback
-    #via __handleAction__, but this method isnt public. Hack around that...
     flux.dispatcher.dispatch(addTodoAction1)
 
     expect(flux.store("TodoStore").todos).toEqual({
@@ -95,7 +92,7 @@ describe 'TodoStore', ->
     #setup action object using a reference to the todo object
     toggleCompleteAction1 = {
       type: constants.TOGGLE_TODO
-      payload: {todo: flux.store("TodoStore").todos["abc"]} #must be a reference to the object
+      payload: {todo: flux.store("TodoStore").todos["abc"]} #must be a reference
     }
     #toggle complete where function arg contains a reference to the todo item
     flux.dispatcher.dispatch(toggleCompleteAction1)
