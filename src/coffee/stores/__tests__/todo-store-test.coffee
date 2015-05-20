@@ -19,9 +19,10 @@ describe 'TodoStore', ->
       .mockReturnValueOnce("abcde") #3rd return val is abcde
     #setup the dispatcher
     stores = {"TodoStore": store}
-    actions = require '../../actions/todo-actions'
     Fluxxor = require 'fluxxor'
-    flux = new Fluxxor.Flux(stores, actions)
+    #flux actions undefined--tests will provide mock actions
+    #we will call flux.dispatcher.dispatch directly to test store callbacks
+    flux = new Fluxxor.Flux(stores)
   afterEach ->
     TodoStore = null
     store = null
