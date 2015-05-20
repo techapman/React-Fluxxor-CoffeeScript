@@ -32,6 +32,6 @@
       "coffee.md",
       "js"
     ],
-    "unmockedModulePathPatterns": ["react", "uuid", "lodash-node"]
+    "unmockedModulePathPatterns": ["react", "fluxxor", "uuid", "lodash-node"]
   }
 }
