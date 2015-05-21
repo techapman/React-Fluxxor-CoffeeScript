@@ -49,6 +49,7 @@ describe 'TodoApp', ->
     )
     expect(listItemElementsArray.length).toBe(0)
 
+
   it "renders a TodoItem for each todo in TodoStore (@state.todos)", ->
     #make sure document has div, ul, form, input, and button tags
     appElement = TestUtils.renderIntoDocument(

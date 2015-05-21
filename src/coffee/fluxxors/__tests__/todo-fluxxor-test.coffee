@@ -49,6 +49,7 @@ describe 'TodoFluxInstance', ->
     fakeCallback = jest.genMockFunction()
     #register a fake callback, StoreWatchMixin does this in React components
     flux.store('TodoStore').on('change', fakeCallback)
+    
     flux.actions.addTodo('hang with my bae') #first change ev
     flux.actions.addTodo('download the new jamie xx album') #second change ev
     todoItem = flux.store('TodoStore').getState().todos[0] #get ref to todo item
