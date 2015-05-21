@@ -19,6 +19,7 @@
     "lodash-node": "^3.8.0"
   },
   "jest": {
+    "collectCoverage": true,
     "scriptPreprocessor": "preprocessor.js",
     "testFileExtensions": [
       "coffee",

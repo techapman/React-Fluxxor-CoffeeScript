@@ -39,7 +39,7 @@ Application = React.createClass
 
       ul {key: 'allTodosList'}, @state.todos.map (currentTodo, i)->
         #console.log 'CURRENT TODO', currentTodo, i
-        (li {key: currentTodo.id}, [
+        (li {key: currentTodo.id, className: 'todo-list-item'}, [
           React.createElement(TodoItem, {todo: currentTodo, key: i})
         ])
 

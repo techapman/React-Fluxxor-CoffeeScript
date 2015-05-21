@@ -27,7 +27,7 @@ describe 'TodoItem', ->
       todoElement #jsdom tree
       'span'
     )
-
+    
     expect(span.getDOMNode().textContent).toBe('party rock')
     expect(span.getDOMNode().style.color).toBe('red')
 
